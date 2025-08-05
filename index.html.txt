@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wash Care Video Platform</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #4a148c);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #f5f5f5;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: -1;
+        }
+        
+        .header {
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #1a2a6c, #4a148c);
+            border-radius: 2px;
+        }
+        
+        h1 {
+            color: #1a2a6c;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            color: #4a148c;
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+        
+        .language-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .language-btn {
+            padding: 22px;
+            border-radius: 15px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            border: none;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0);
+        }
+        
+        .language-btn:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .language-btn:active {
+            transform: translateY(0);
+        }
+        
+        .language-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .language-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .english {
+            background: linear-gradient(135deg, #3f51b5, #303f9f);
+            color: white;
+        }
+        
+        .french {
+            background: linear-gradient(135deg, #e91e63, #c2185b);
+            color: white;
+        }
+        
+        .arabic {
+            background: linear-gradient(135deg, #009688, #00796b);
+            color: white;
+            direction: rtl;
+        }
+        
+        .flag {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+        }
+        
+        .info {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.07);
+            text-align: center;
+            color: #333;
+        }
+        
+        .info h3 {
+            color: #1a2a6c;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .info p {
+            color: #555;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .qr-container {
+            margin: 25px auto;
+            background: white;
+            padding: 18px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        #qrcode {
+            width: 170px;
+            height: 170px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .qr-text {
+            color: #4a148c;
+            font-size: 1.1rem;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .deploy-guide {
+            background: #eef2f7;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: left;
+        }
+        
+        .deploy-guide h3 {
+            color: #1a2a6c;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .deploy-steps {
+            counter-reset: step-counter;
+            padding-left: 20px;
+        }
+        
+        .deploy-steps li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .deploy-steps li:before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #4a148c;
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .language-btn {
+                font-size: 1.3rem;
+                padding: 20px;
+            }
+        }
+        
+        .video-icon {
+            font-size: 1.8rem;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>WASH CARE INFO</h1>
+            <div class="subtitle">CHOOSE LANGUAGE</div>
+        </div>
+        
+        <div class="language-container">
+            <button class="language-btn english" onclick="redirectTo('https://www.youtube.com/watch?v=dQw4w9WgXcQ')">
+                <span class="flag">🇬🇧</span>
+                <span>English</span>
+                <span class="video-icon">▶️</span>
+            </button>
+            
+            <button class="language-btn french" onclick="redirectTo('https://www.youtube.com/watch?v=dQw4w9WgXcQ')">
+                <span class="flag">🇫🇷</span>
+                <span>Français</span>
+                <span class="video-icon">▶️</span>
+            </button>
+            
+            <button class="language-btn arabic" onclick="redirectTo('https://www.youtube.com/watch?v=dQw4w9WgXcQ')">
+                <span class="flag">🇸🇦</span>
+                <span class="video-icon">▶️</span>
+                <span>العربية</span>
+            </button>
+        </div>
+        
+        <div class="qr-container">
+            <div id="qrcode"></div>
+            <div class="qr-text">Scan to access this page</div>
+        </div>
+        
+        <div class="info">
+            <h3>Video Resources</h3>
+            <p>English: Professional Down Jacket Cleaning</p>
+            <p>French: Guide de nettoyage des vêtements</p>
+            <p>Arabic: دليل تنظيف الملابس الشتوية</p>
+        </div>
+        
+        <div class="deploy-guide">
+            <h3>GitHub Pages Deployment Guide</h3>
+            <ol class="deploy-steps">
+                <li>Create a new GitHub repository named "wash-care-info"</li>
+                <li>Copy this HTML code to a file named <code>index.html</code></li>
+                <li>Upload the file to your GitHub repository</li>
+                <li>Go to Repository Settings > Pages</li>
+                <li>Select "Deploy from a branch" and choose "main" branch</li>
+                <li>Set folder to "/ (root)" and click Save</li>
+                <li>Wait 1-2 minutes for deployment to complete</li>
+                <li>Access your page at: <code>https://&lt;username&gt;.github.io/wash-care-info/</code></li>
+                <li>Scan the QR code to share your multilingual video portal</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Generate QR code for the current page
+        function generateQRCode() {
+            const currentUrl = window.location.href;
+            const qrElement = document.getElementById('qrcode');
+            
+            // Clear container
+            qrElement.innerHTML = '';
+            
+            // Generate QR code
+            new QRCode(qrElement, {
+                text: currentUrl,
+                width: 170,
+                height: 170,
+                colorDark: "#1a2a6c",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+        
+        // Redirect to specified URL
+        function redirectTo(url) {
+            // Add click animation
+            event.target.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                event.target.style.transform = '';
+                window.open(url, '_blank');
+            }, 200);
+        }
+        
+        // Page load actions
+        window.onload = function() {
+            generateQRCode();
+            
+            // Add button animation effects
+            document.querySelectorAll('.language-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            });
+        };
+    </script>
+</body>
+</html>
