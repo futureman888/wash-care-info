@@ -1,0 +1,1 @@
+# wash-care-info
